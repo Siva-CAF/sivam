@@ -1,5 +1,6 @@
 package com.softclouds.kapture.externalcrawling.service;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,14 +11,20 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.apache.commons.io.FilenameUtils;
+import org.elasticsearch.action.admin.indices.stats.IndicesStatsRequest;
+import org.elasticsearch.action.admin.indices.stats.IndicesStatsResponse;
+import org.elasticsearch.client.Request;
+import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.softclouds.kapture.externalcrawling.bo.ExternalCrawlingContent;
 import com.softclouds.kapture.externalcrawling.bo.WebContentURLs;
+import com.softclouds.kapture.externalcrawling.config.RestHighLevelClientUtil;
 import com.softclouds.kapture.externalcrawling.helper.CrawlingHelper;
 import com.softclouds.kapture.externalcrawling.modal.URLContentModal;
 import com.softclouds.kapture.externalcrawling.modal.WebContent;
@@ -42,7 +49,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Transactional
 public class ExternalCrawlingServiceImpl implements ExternalCrawlingService {
-	
+
 	@Autowired
 	RestHighLevelClient client;
 
@@ -234,10 +241,23 @@ public class ExternalCrawlingServiceImpl implements ExternalCrawlingService {
 		}
 	}
 
-	private void updateDocumentsCountAndSizeInExternalCrawlingTable(String collectionName,
-			ExternalCrawlingContent externalCrawling, String locale) {
-		
+	private static void updateDocumentsCountAndSizeInExternalCrawlingTable(String collectionName,
+			ExternalCrawlingContent externalCrawling, String locale) throws IOException {
 
+		try {
+			Request request = new Request("GET", collectionName + "/_stats");
+			Response resp = RestHighLevelClientUtil.getInstance().getRestClient().getLowLevelClient()
+					.performRequest(request);
+			JsonNode body = new ObjectMapper().readTree(resp.getEntity().getContent());
+			JsonNode size = body.get("indices").get(collectionName).get("primaries").get("store").get("size_in_bytes");
+			log.info("Size In bytes:::" + size);
+			JsonNode count = body.get("indices").get(collectionName).get("primaries").get("docs").get("count");
+			log.info("count::" + count);
+
+		} catch (Exception e) {
+			log.error(
+					"WebCrawlingServiceImpl::updateDocumentsCountAndSizeInExternalCrawlingTable::error whil update raz size and number of documents count in ES::"
+							+ e.getMessage());
+		}
 	}
-
 }
