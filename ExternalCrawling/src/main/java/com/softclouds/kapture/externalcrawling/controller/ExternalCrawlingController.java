@@ -43,7 +43,6 @@ public class ExternalCrawlingController {
 			List<WebContentURLs> webContentURLs = crawlingService.fetchWebURLS();
 
 			if (null != webContentURLs && !webContentURLs.isEmpty()) {
-
 				for (WebContentURLs webUrLs : webContentURLs) {
 					collectionCrawlId = webUrLs.getCrawlingId();
 					if (null != collectionCrawlId) {

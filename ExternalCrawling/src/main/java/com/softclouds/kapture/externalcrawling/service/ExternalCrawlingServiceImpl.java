@@ -7,9 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.apache.commons.io.FilenameUtils;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.softclouds.kapture.externalcrawling.bo.ExternalCrawlingContent;
@@ -34,8 +38,13 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Component
+@Service
 @Slf4j
+@Transactional
 public class ExternalCrawlingServiceImpl implements ExternalCrawlingService {
+	
+	@Autowired
+	RestHighLevelClient client;
 
 	@Autowired
 	WebContentURLsRepository webContentURLsRepository;
@@ -227,7 +236,7 @@ public class ExternalCrawlingServiceImpl implements ExternalCrawlingService {
 
 	private void updateDocumentsCountAndSizeInExternalCrawlingTable(String collectionName,
 			ExternalCrawlingContent externalCrawling, String locale) {
-		// TODO Auto-generated method stub
+		
 
 	}
 

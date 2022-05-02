@@ -12,8 +12,8 @@
 	<groupId>com.softclouds.kapture</groupId>
 	<artifactId>externalcrawling</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ExternalCrawling</name>
 	<packaging>war</packaging>
+	<name>ExternalCrawling</name>
 	<description>External crawling systeam</description>
 	<properties>
 		<java.version>11</java.version>
@@ -74,7 +74,15 @@
 		<dependency>
 			<groupId>org.elasticsearch.client</groupId>
 			<artifactId>elasticsearch-rest-high-level-client</artifactId>
-			<version>7.6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.elasticsearch.client</groupId>
+			<artifactId>transport</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
 		</dependency>
 	</dependencies>
 

@@ -51,7 +51,7 @@ public class CrawlingHelper {
 			content.setBody(body);
 
 		} catch (Exception e) {
-			log.error("CrawlingHelper::connetToURLAndParseContent{} ::Error while prase the url content "
+			log.error("CrawlingHelper::connetToURLAndParseContent{} :::Error while prase the url content "
 					+ e.getMessage());
 		}
 		return content;

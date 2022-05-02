@@ -11,7 +11,7 @@ public class CrawlingConstants {
 	public static final String WEB_INDEX_START_PREFIX = "kapture.";
 
 	public static final String WEB_CATEGORY_TYPE = "Document Types";
-	public static final String WEB_TYPE = "Web Page";
+	public static final String WEB_TYPE = "Web";
 	public static final String PDF_TYPE = "PDF";
 	public static final String VIDEO_TYPE = "Video";
 	public static final String AUDIO_TYPE = "Audio";
