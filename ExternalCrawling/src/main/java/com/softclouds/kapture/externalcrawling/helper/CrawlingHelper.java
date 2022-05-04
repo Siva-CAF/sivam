@@ -42,10 +42,8 @@ public class CrawlingHelper {
 			doc = Jsoup.parse(html);
 			title = doc.title();
 			body = doc.body().text();
-
-			System.out.printf("Title: %s%n", title);
-			System.out.printf("Body: %s", body);
-
+			log.info("Title: %s%n", title);
+			log.info("Body: %s", body);
 			content = new URLContentModal();
 			content.setTitle(title);
 			content.setBody(body);

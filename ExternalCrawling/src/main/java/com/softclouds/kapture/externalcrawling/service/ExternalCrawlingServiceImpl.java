@@ -206,7 +206,7 @@ public class ExternalCrawlingServiceImpl implements ExternalCrawlingService {
 	 * @param webUrLs
 	 */
 	private void updateWebContentURLRecordStatus(String extension, String title, WebContentURLs webUrLs) {
-		log.info("Start of WebCrawlingServiceImpl::updateWebContentURLRecordStatus{}", webUrLs.getId());
+		log.info("Start ExternalCrawlingServiceImpl in updateWebContentURLRecordStatus method {} {} {}", extension, title, webUrLs);
 		String encoding = null;
 		String documentType = null;
 		try {
@@ -230,7 +230,7 @@ public class ExternalCrawlingServiceImpl implements ExternalCrawlingService {
 				dbWebUrls.setUrlContentCrawlingStatus(true);
 				dbWebUrls.setDocumentType(documentType);
 				dbWebUrls.setEncoding(encoding);
-
+				dbWebUrls.setTitle(title);
 				webContentURLsRepository.save(dbWebUrls);
 			}
 
@@ -239,11 +239,13 @@ public class ExternalCrawlingServiceImpl implements ExternalCrawlingService {
 					"WebCrawlingServiceImpl::updateWebContentURLRecordStatus:: error while updating the urls status::",
 					e.getMessage());
 		}
+		log.info("End ExternalCrawlingServiceImpl in updateWebContentURLRecordStatus method");
 	}
 
-	private static void updateDocumentsCountAndSizeInExternalCrawlingTable(String collectionName,
+	private void updateDocumentsCountAndSizeInExternalCrawlingTable(String collectionName,
 			ExternalCrawlingContent externalCrawling, String locale) throws IOException {
-
+		log.info("Start ExternalCrawlingServiceImpl in updateDocumentsCountAndSizeInExternalCrawlingTable method {} {} {}", collectionName,
+				externalCrawling, locale);
 		try {
 			Request request = new Request("GET", collectionName + "/_stats");
 			Response resp = RestHighLevelClientUtil.getInstance().getRestClient().getLowLevelClient()
@@ -254,10 +256,19 @@ public class ExternalCrawlingServiceImpl implements ExternalCrawlingService {
 			JsonNode count = body.get("indices").get(collectionName).get("primaries").get("docs").get("count");
 			log.info("count::" + count);
 
+			Optional<ExternalCrawlingContent> crawlingContent = externalCrwalingRepository.findById(externalCrawling.getId());
+
+			if (crawlingContent.isPresent()) {
+				ExternalCrawlingContent content = crawlingContent.get();
+				content.setNumberOfDocuments(count.asLong());
+				content.setRawSize(size.asLong());
+				externalCrwalingRepository.save(content);
+			}
 		} catch (Exception e) {
 			log.error(
 					"WebCrawlingServiceImpl::updateDocumentsCountAndSizeInExternalCrawlingTable::error whil update raz size and number of documents count in ES::"
 							+ e.getMessage());
 		}
+		log.info("End ExternalCrawlingServiceImpl in updateDocumentsCountAndSizeInExternalCrawlingTable method");
 	}
 }

@@ -71,21 +71,11 @@ public class RestHighLevelClientUtil {
 			builder = RestClient.builder(new HttpHost(host, port)).setHttpClientConfigCallback(
 					httpClientBuilder -> httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider));
 
-			/*
-			 * builder.setRequestConfigCallback(requestConfigBuilder ->
-			 * requestConfigBuilder.setConnectTimeout(10000)
-			 * .setSocketTimeout(60000).setConnectionRequestTimeout(0));
-			 */
-
-			// builder.setDefaultIOReactorConfig(IOReactorConfig.custom().setIoThreadCount(1).build());
-			// //set to one thread
-
 			client = new RestHighLevelClient(builder);
 			log.info("elastic client initialized {}", client.cluster());
 
 		} catch (Exception e) {
 			log.error("initRestClient failed::", e);
-			// log.error("initRestClient failed::" + e.getMessage());
 		}
 
 		log.info("End Rest Client:::");

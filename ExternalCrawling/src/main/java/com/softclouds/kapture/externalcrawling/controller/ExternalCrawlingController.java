@@ -34,6 +34,7 @@ public class ExternalCrawlingController {
 	@Scheduled(cron = "0 0 * * * ?")
 	//@Scheduled(cron = "1 * * * * ?")
 	public void run() {
+		log.info("Start ExternalCrawlingController");
 
 		log.info("Sheduler started {}", Calendar.getInstance().getTime());
 		log.info("Current time is :: " + Calendar.getInstance().getTime());
@@ -64,5 +65,6 @@ public class ExternalCrawlingController {
 		} catch (Exception e) {
 			log.error("WebCrawlingController:::Sheduler run()::" + e.getMessage());
 		}
+		log.info("End ExternalCrawlingController");
 	}
 }
