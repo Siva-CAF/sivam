@@ -123,7 +123,7 @@ public class ExternalCrawlingServiceImpl implements ExternalCrawlingService {
 
 			String randomId = CrawlingUtil.getRandomNumberString();
 
-			String documentId = firstFourChars.concat(randomId);
+			String documentId = firstFourChars.toUpperCase().concat(randomId);
 			log.info("DocumentId -- Web ::{}", documentId);
 
 			// Web Categories setting
@@ -164,6 +164,9 @@ public class ExternalCrawlingServiceImpl implements ExternalCrawlingService {
 			collectionObject.put(collectionName.toUpperCase(), channelMap);
 
 			articleData = mapper.readValue(mapper.writeValueAsString(webContent), HashMap.class);
+			articleData.remove("documentid");
+			articleData.put("DOCUMENTID", documentId);
+			articleData.put("ISWEBARTICLE", "true");
 			map.putAll(articleData);
 			map.putAll(collectionObject);
 

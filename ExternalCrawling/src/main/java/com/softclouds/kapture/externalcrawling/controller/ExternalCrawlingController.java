@@ -56,8 +56,11 @@ public class ExternalCrawlingController {
 						} else {
 							// No details found
 						}
-
-						crawlingService.readContentFromWebURLs(webUrLs, externalCrawling);
+						if(externalCrawling != null && externalCrawling.isEnableThisCollection()) {
+							crawlingService.readContentFromWebURLs(webUrLs, externalCrawling);
+						} else {
+							log.warn("Content search not available to end user due to collection not enabled for GO Live. Please contact administrator.");
+						}
 					}
 				}
 			}
