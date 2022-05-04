@@ -19,6 +19,12 @@ import com.softclouds.kapture.kloader.util.LoaderUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * This class defines the get the XML files and index the article content in ES
+ * 
+ * @author sivam
+ *
+ */
 @Slf4j
 @Component
 @Transactional
@@ -30,6 +36,9 @@ public class LoaderServiceImpl implements ILoaderService {
 	@Autowired
 	LoaderRepository loaderRepository;
 
+	/**
+	 * Process the events
+	 */
 	@Override
 	public void processEvents() {
 		log.info("Start of Process Events::");
@@ -63,6 +72,13 @@ public class LoaderServiceImpl implements ILoaderService {
 		}
 	}
 
+	/**
+	 * Process the XML file and Save to ES
+	 * 
+	 * @param event
+	 * @param id
+	 * @param pathStr
+	 */
 	private void processFile(String event, String id, String pathStr) {
 		log.info("Start of processfile:::{}", event, id, pathStr);
 		String ESID = null;
@@ -101,6 +117,12 @@ public class LoaderServiceImpl implements ILoaderService {
 
 	}
 
+	/**
+	 * Once Done the XML Process that file moved to ImTransactionProcessed table and
+	 * delete in ImTransaction table
+	 * 
+	 * @param id
+	 */
 	private void moveToProcessedTable(String id) {
 		ImTransaction fileDetails = watcherRepository.getById(BigInteger.valueOf(Integer.parseInt(id)));
 		ImTransactionProcessed processed = null;

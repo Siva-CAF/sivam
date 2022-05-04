@@ -11,8 +11,6 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.apache.commons.io.FilenameUtils;
-import org.elasticsearch.action.admin.indices.stats.IndicesStatsRequest;
-import org.elasticsearch.action.admin.indices.stats.IndicesStatsResponse;
 import org.elasticsearch.client.Request;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -159,6 +157,7 @@ public class ExternalCrawlingServiceImpl implements ExternalCrawlingService {
 					DateUtils.getDate(primaryLocale, CrawlingConstants.CREATEDDATE, CrawlingConstants.TYPE));
 
 			collectionObject.put(collectionName.toUpperCase(), urlContent);
+
 			articleData = mapper.readValue(mapper.writeValueAsString(webContent), HashMap.class);
 			map.putAll(articleData);
 			map.putAll(collectionObject);
@@ -222,6 +221,8 @@ public class ExternalCrawlingServiceImpl implements ExternalCrawlingService {
 				break;
 
 			default:
+				encoding = CrawlingConstants.HTML_ENCODING;
+				documentType = CrawlingConstants.HTML_DOCUMENT_TYPE;
 				break;
 			}
 			WebContentURLs dbWebUrls = null;
@@ -241,7 +242,7 @@ public class ExternalCrawlingServiceImpl implements ExternalCrawlingService {
 		}
 	}
 
-	private static void updateDocumentsCountAndSizeInExternalCrawlingTable(String collectionName,
+	private void updateDocumentsCountAndSizeInExternalCrawlingTable(String collectionName,
 			ExternalCrawlingContent externalCrawling, String locale) throws IOException {
 
 		try {

@@ -42,6 +42,15 @@ public class LoaderUtil {
 		return path;
 	}
 
+	/**
+	 * Fetch the XML file and Parse the content then article content index in ES
+	 * (kapture.channelname.locale)
+	 * 
+	 * @param path
+	 * @param id
+	 * @return
+	 */
+
 	public static String saveToES(String path, String id) {
 		log.info("Start of LoaderUtil::SaveTOES {} ", path);
 
@@ -222,5 +231,4 @@ public class LoaderUtil {
 		return response.getId();
 	}
 
-	
 }
