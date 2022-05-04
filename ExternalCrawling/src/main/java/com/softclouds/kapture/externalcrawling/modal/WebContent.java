@@ -5,6 +5,12 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * This Class defines the Web Content
+ * 
+ * @author sivam
+ *
+ */
 @Setter
 @Getter
 public class WebContent {

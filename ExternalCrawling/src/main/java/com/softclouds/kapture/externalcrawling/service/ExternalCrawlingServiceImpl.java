@@ -155,12 +155,14 @@ public class ExternalCrawlingServiceImpl implements ExternalCrawlingService {
 			webContent.setArticleState(CrawlingConstants.ARTICLESTATE);
 			webContent.setCreatedDate(
 					DateUtils.getDate(primaryLocale, CrawlingConstants.CREATEDDATE, CrawlingConstants.TYPE));
+
 			
 			webContent.setArticlelistcategory(contentListCategories);
 			webContent.setArticlelistusergroup(contentListUsergroups);
 			
 			HashMap<String,Object> channelMap=mapper.readValue(mapper.writeValueAsString(urlContent), HashMap.class);
 			collectionObject.put(collectionName.toUpperCase(), channelMap);
+
 			articleData = mapper.readValue(mapper.writeValueAsString(webContent), HashMap.class);
 			map.putAll(articleData);
 			map.putAll(collectionObject);
@@ -222,6 +224,8 @@ public class ExternalCrawlingServiceImpl implements ExternalCrawlingService {
 				break;
 
 			default:
+				encoding = CrawlingConstants.HTML_ENCODING;
+				documentType = CrawlingConstants.HTML_DOCUMENT_TYPE;
 				break;
 			}
 			WebContentURLs dbWebUrls = null;

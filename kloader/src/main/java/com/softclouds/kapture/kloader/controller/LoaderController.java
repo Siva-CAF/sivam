@@ -9,6 +9,12 @@ import com.softclouds.kapture.kloader.service.ILoaderService;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Loader Controller implements JOB quartz
+ * 
+ * @author sivam
+ *
+ */
 @Slf4j
 public class LoaderController implements Job {
 
