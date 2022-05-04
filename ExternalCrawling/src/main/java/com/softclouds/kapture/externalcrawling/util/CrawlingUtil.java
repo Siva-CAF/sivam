@@ -25,8 +25,8 @@ public class CrawlingUtil {
 	public static String getCollectionPrefixName(String collectionName) {
 		String input = collectionName; // input string
 		String firstFourChars = ""; // substring containing first 4 characters
-		if (input.length() > 4) {
-			firstFourChars = input.substring(0, 4);
+		if (input.length() > 3) {
+			firstFourChars = input.substring(0, 3);
 		} else {
 			firstFourChars = input;
 		}

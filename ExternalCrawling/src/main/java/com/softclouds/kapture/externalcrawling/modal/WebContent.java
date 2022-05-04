@@ -1,5 +1,7 @@
 package com.softclouds.kapture.externalcrawling.modal;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,5 +19,8 @@ public class WebContent {
 
 	private String status;
 	private String articleState;
+	
+	List<WebContentCategroies> articlelistcategory =null;
+	List<WebContentUserGroups> articlelistusergroup = null;
 
 }

@@ -32,6 +32,7 @@ public class ExternalCrawlingController {
 	 * Scheduler Run at every 24 hours
 	 */
 	@Scheduled(cron = "0 0 * * * ?")
+	//@Scheduled(cron = "1 * * * * ?")
 	public void run() {
 
 		log.info("Sheduler started {}", Calendar.getInstance().getTime());
