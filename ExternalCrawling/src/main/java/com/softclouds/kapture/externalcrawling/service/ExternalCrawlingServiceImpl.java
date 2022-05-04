@@ -114,7 +114,7 @@ public class ExternalCrawlingServiceImpl implements ExternalCrawlingService {
 
 			urlContent = crawlingHelper.connetToURLAndParseContent(contentURL);
 
-			collectionName = externalCrawling.getCollectionName().toLowerCase();
+			collectionName = externalCrawling.getCollectionName().replaceAll(" ", "_").toLowerCase();
 			locale = externalCrawling.getLocale().toLowerCase();
 			primaryLocale = externalCrawling.getLocale();
 
@@ -150,19 +150,22 @@ public class ExternalCrawlingServiceImpl implements ExternalCrawlingService {
 			webContent.setArticleId(documentId);
 			webContent.setDOCUMENTID(documentId);
 			webContent.setPrimaryLocale(primaryLocale);
-			webContent.setType(collectionName);
+			webContent.setType(collectionName.toUpperCase());
 			webContent.setStatus(CrawlingConstants.STATUS);
 			webContent.setArticleState(CrawlingConstants.ARTICLESTATE);
 			webContent.setCreatedDate(
 					DateUtils.getDate(primaryLocale, CrawlingConstants.CREATEDDATE, CrawlingConstants.TYPE));
 
-			collectionObject.put(collectionName.toUpperCase(), urlContent);
+			
+			webContent.setArticlelistcategory(contentListCategories);
+			webContent.setArticlelistusergroup(contentListUsergroups);
+			
+			HashMap<String,Object> channelMap=mapper.readValue(mapper.writeValueAsString(urlContent), HashMap.class);
+			collectionObject.put(collectionName.toUpperCase(), channelMap);
 
 			articleData = mapper.readValue(mapper.writeValueAsString(webContent), HashMap.class);
 			map.putAll(articleData);
 			map.putAll(collectionObject);
-			map.put(CrawlingConstants.ARTICLELISTCATEGORIES, contentListCategories);
-			map.put(CrawlingConstants.ARTICLELISTUSERGROUPS, contentListUsergroups);
 
 			// Setting doc dates Map
 			docdatesMap = new HashMap<String, String>();
@@ -176,7 +179,7 @@ public class ExternalCrawlingServiceImpl implements ExternalCrawlingService {
 			source = new HashMap<String, Object>();
 			source.put("analyzedFields", finalWebMap);
 
-			webIndexName = CrawlingConstants.WEB_INDEX_START_PREFIX + collectionName + locale;
+			webIndexName = CrawlingConstants.WEB_INDEX_START_PREFIX + collectionName + "." + locale;
 			log.info("Web Crawling -IndexName {}", webIndexName);
 
 			String ESID = crawlingHelper.webContentIndexInElasticSearch(source, webIndexName);
@@ -186,7 +189,7 @@ public class ExternalCrawlingServiceImpl implements ExternalCrawlingService {
 				updateWebContentURLRecordStatus(extension, urlContent.getTitle(), webUrLs);
 
 				// update index document count and raw size in External crawling content table
-				updateDocumentsCountAndSizeInExternalCrawlingTable(collectionName, externalCrawling, locale);
+				updateDocumentsCountAndSizeInExternalCrawlingTable(webIndexName, externalCrawling, locale);
 			}
 
 		} catch (Exception e) {
