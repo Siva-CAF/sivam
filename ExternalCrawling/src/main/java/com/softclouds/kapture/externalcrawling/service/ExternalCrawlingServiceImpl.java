@@ -111,8 +111,14 @@ public class ExternalCrawlingServiceImpl implements ExternalCrawlingService {
 			contentURL = webUrLs.getStartingPointURLs();
 			url = new URL(contentURL);
 			extension = FilenameUtils.getExtension(url.getPath());
-
-			urlContent = crawlingHelper.connetToURLAndParseContent(contentURL);
+			
+			log.info("Extension : {}", extension);
+			
+			if("pdf".equalsIgnoreCase(extension)) {
+				urlContent = crawlingHelper.connetToURLAndParsePdfContent(contentURL);
+			} else {
+				urlContent = crawlingHelper.connetToURLAndParseContent(contentURL);
+			}
 
 			collectionName = externalCrawling.getCollectionName().replaceAll(" ", "_").toLowerCase();
 			locale = externalCrawling.getLocale().toLowerCase();

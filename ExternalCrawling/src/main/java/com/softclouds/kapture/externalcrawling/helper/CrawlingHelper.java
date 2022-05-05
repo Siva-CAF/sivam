@@ -1,8 +1,14 @@
 package com.softclouds.kapture.externalcrawling.helper;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.tika.Tika;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -83,5 +89,41 @@ public class CrawlingHelper {
 		}
 		log.info("END of webContentIndexInElasticSearch::documents ES ID{}", response.getId());
 		return response.getId();
+	}
+
+	/**
+	 * Connect to URL and parse pdf content
+	 * @param contentURL
+	 * @return
+	 * @throws IOException
+	 */
+	public URLContentModal connetToURLAndParsePdfContent(String contentURL) {
+		log.info("Strat of CrawlingHelper::connetToURLAndParsePdfContent{}", contentURL);
+		URLContentModal content = null;
+		Tika tika = null;
+		String body = null;
+		try {
+			URL url = new URL(contentURL);
+			URLConnection connection = url.openConnection();
+			InputStream is = connection.getInputStream();
+
+			File f = new File(contentURL);
+			String[] parts = f.getName().split(".pdf");
+			String title = parts[0];
+
+			tika = new Tika();
+			body = tika.parseToString(is);
+
+			content = new URLContentModal();
+			content.setTitle(title);
+			content.setBody(body);
+
+			log.info("body prased {}", body);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		log.info("End of CrawlingHelper::connetToURLAndParsePdfContent{}", contentURL);
+		return content;
 	}
 }
