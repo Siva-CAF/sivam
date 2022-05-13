@@ -2,12 +2,15 @@ package com.softclouds.kapture.externalcrawling.util;
 
 import java.util.Random;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * This CrawlingUtil class uses the reusing the methods
  * 
  * @author sivam
  *
  */
+@Slf4j
 public class CrawlingUtil {
 
 	public static String getRandomNumberString() {
@@ -17,7 +20,7 @@ public class CrawlingUtil {
 		int number = rnd.nextInt(9999);
 
 		// this will convert any number sequence into 6 character.
-		System.out.println(String.format("%04d", number));
+		log.info(String.format("%04d", number));
 
 		return String.format("%04d", number);
 	}
@@ -30,7 +33,7 @@ public class CrawlingUtil {
 		} else {
 			firstFourChars = input;
 		}
-		System.out.println(firstFourChars);
+		log.info(firstFourChars);
 		return firstFourChars;
 	}
 
