@@ -12,6 +12,7 @@
 	<groupId>com.softclouds.kapture</groupId>
 	<artifactId>kloader</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>kloader</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
