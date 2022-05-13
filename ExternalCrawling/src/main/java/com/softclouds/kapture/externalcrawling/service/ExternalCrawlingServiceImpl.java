@@ -152,6 +152,7 @@ public class ExternalCrawlingServiceImpl implements ExternalCrawlingService {
 			contentListUsergroups.add(webContentUserGroups);
 
 			webContent = new WebContent();
+			webContent.setCrawlURL(urlContent.getCrawlURL());
 			webContent.setTitle(urlContent.getTitle());
 			webContent.setArticleId(documentId);
 			webContent.setDOCUMENTID(documentId);
@@ -188,7 +189,7 @@ public class ExternalCrawlingServiceImpl implements ExternalCrawlingService {
 			source = new HashMap<String, Object>();
 			source.put("analyzedFields", finalWebMap);
 
-			webIndexName = CrawlingConstants.WEB_INDEX_START_PREFIX + collectionName + "." + locale;
+			webIndexName = CrawlingConstants.WEB_INDEX_START_PREFIX + collectionName + CrawlingConstants.WEB_INDEX_END_SUFIX + "." + locale;
 			log.info("Web Crawling -IndexName {}", webIndexName);
 
 			String ESID = crawlingHelper.webContentIndexInElasticSearch(source, webIndexName);

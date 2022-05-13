@@ -13,6 +13,7 @@ import lombok.Setter;
 @Getter
 public class URLContentModal {
 
+	private String crawlURL;
 	private String title;
 	private String body;
 

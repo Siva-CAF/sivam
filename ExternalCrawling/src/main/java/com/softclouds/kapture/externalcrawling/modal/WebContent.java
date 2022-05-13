@@ -15,6 +15,7 @@ import lombok.Setter;
 @Getter
 public class WebContent {
 
+	private String crawlURL;
 	private String title;
 	private String type;
 	private String DOCUMENTID;

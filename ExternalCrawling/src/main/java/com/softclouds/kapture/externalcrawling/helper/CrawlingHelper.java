@@ -51,6 +51,7 @@ public class CrawlingHelper {
 			log.info("Title: %s%n", title);
 			log.info("Body: %s", body);
 			content = new URLContentModal();
+			content.setCrawlURL(contentURL);
 			content.setTitle(title);
 			content.setBody(body);
 
@@ -61,7 +62,7 @@ public class CrawlingHelper {
 		return content;
 
 	}
-
+	
 	/**
 	 * Web content has indexed to elastic search and return ESID
 	 * 

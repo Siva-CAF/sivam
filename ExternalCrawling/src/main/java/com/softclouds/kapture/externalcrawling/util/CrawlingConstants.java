@@ -9,6 +9,8 @@ package com.softclouds.kapture.externalcrawling.util;
 public class CrawlingConstants {
 
 	public static final String WEB_INDEX_START_PREFIX = "kapture.";
+	
+	public static final String WEB_INDEX_END_SUFIX = "_webcrawl";
 
 	public static final String WEB_CATEGORY_TYPE = "Document Types";
 	public static final String WEB_TYPE = "Web";
